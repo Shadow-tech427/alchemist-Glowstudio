@@ -1,0 +1,20 @@
+import api from "./api";
+
+export const authService = {
+    login: async (email, password) => {
+        const response = await api.post('/auth/admin/login', { email, password });
+        if (response.data.token) {
+            localStorage.setItem('adminToken', response.data.token);
+        }
+        return response.data;
+    },
+
+    logout: () => {
+        localStorage.removeItem('adminToken');
+    },
+
+    getCurrentAdmin: async () => {
+        const response = await api.get('/auth/admin/me');
+        return response.data;
+    },
+};
